@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useState } from "react";
 
 function App() {
@@ -11,19 +10,23 @@ function App() {
     ic: "",
   });
 
-  const submitHandler = async() => {
-    const response = await axios.post(
-      "https://fault-detection-vs.onrender.com/predict",
+  const submitHandler = async () => {
+    const response = await fetch(
+      "https://fault-detection-001.onrender.com/predict",
       {
-        text: [+data.va, +data.vb, +data.vc, +data.ia, +data.ib, +data.ic],
-      },
-      {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
+
         },
+        body: JSON.stringify({
+          text: [+data.va, +data.vb, +data.vc, +data.ia, +data.ib, +data.ic],
+        }),
       }
     );
-    console.log(response);
+
+    const responseData = await response.json();
+    console.log(responseData);
   };
   return (
     <div className="max-w-2xl mx-auto">
